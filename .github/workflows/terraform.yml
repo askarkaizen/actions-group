@@ -5,7 +5,7 @@ on:
     inputs:
       action:
       type: string
-      description: 'Choose an action to perform: apply or destroy'
+      description: Choose an action to perform: apply or destroy
 
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Terraform Apply  
         run: terraform apply -auto-approve  
 
-      - name: Terraform Apply  
+      - name: Terraform Destroy  
         run: terraform destroy -auto-approve 
         
     
