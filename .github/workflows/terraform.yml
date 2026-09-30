@@ -3,10 +3,10 @@ name: Terraform CD
 on:
   workflow_dispatch:
     inputs:
-      acttion:
+      action:
       type: string
       description: 'Choose an action to perform: apply or destroy'
-      
+
 
 jobs:
   deploy:
