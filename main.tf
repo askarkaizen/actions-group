@@ -2,6 +2,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "kaizen-askarz"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
