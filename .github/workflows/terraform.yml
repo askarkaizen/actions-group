@@ -10,6 +10,25 @@ on:
           - destroy
         description: Choose an action to perform apply or destroy
 
+      region:
+        type: choice
+        options:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+        description: Choose the AWS region to deploy the resources
+
+
+      instance_type:
+        type: string
+        description: Please provide instance type
+
+      instance_name:
+        type: string
+        options:
+        description: Please provide instance name               
+
 
 jobs:
   deploy:
