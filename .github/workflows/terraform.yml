@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       action:
-      type: string
-      description: Choose an action to perform: apply or destroy
+        type: string
+        description: Choose an action to perform: apply or destroy
 
 
 jobs:
