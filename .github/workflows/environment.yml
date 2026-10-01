@@ -1,0 +1,61 @@
+name: Terraform Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        options:
+          - apply
+          - destroy
+        description: Choose an action to perform apply or destroy
+
+      environment:
+        type: choice
+        options:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+        description: Choose the AWS region to deploy the resources
+       
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v7
+        name: Checkout repository
+
+      - name: Create tfvars file
+        run: echo "${{vars.TFVARS}}" > terraform.tfvars
+            #  cat terraform.tfvars -> This is how we can troubleshoot the tfvars file if needed
+
+      - name : Set up Terraform
+        uses: hashicorp/setup-terraform@v4  
+
+      
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.environment }}
+
+      - name: Terraform Init
+        run: terraform init -backend-config=key="${{ inputs.environment }}/terraform.tfstate"
+
+      - name: Terraform Apply or Destroy
+        run: |
+         if [[ ${{ inputs.action }} == "apply" ]]
+         then
+          terraform apply -var instance_name=${{ inputs.instance_name }} -var instance_type=${{ inputs.instance_type }} -var region=${{ inputs.region }} -auto-approve
+         else
+          terraform destroy -var instance_name=${{ inputs.instance_name }} -var instance_type=${{ inputs.instance_type }} -var region=${{ inputs.region }} -auto-approve
+         fi
+
+    
+        
+    
