@@ -1,4 +1,4 @@
-name: Terraform Environment 
+name: Terraform Self-Hosted Runner Workflow
 
 on:
   workflow_dispatch:
@@ -32,10 +32,6 @@ jobs:
         run: echo "${{vars.TFVARS}}" > terraform.tfvars
             #  cat terraform.tfvars -> This is how we can troubleshoot the tfvars file if needed
 
-      - name : Set up Terraform
-        uses: hashicorp/setup-terraform@v4  
-
-      
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.3.0

@@ -1,4 +1,4 @@
-name: Terraform Environment 
+name: Terraform Self-Hosted Runner Workflow
 
 on:
   workflow_dispatch:
