@@ -2,41 +2,9 @@ name: Cronjob
 
 on:
   schedule:
-    - cron: "* * * * *"  # This cron expression runs the workflow every minute. Adjust as needed.
+    - cron: "0 5 * * *" 
   workflow_dispatch:
-    inputs:
-      action:
-        type: choice
-        options:
-          - apply
-          - destroy
-        description: Choose an action to perform apply or destroy
-        default: apply
-
-      region:
-        type: choice
-        options:
-          - us-east-1
-          - us-east-2
-          - us-west-1
-          - us-west-2
-        description: Choose the AWS region to deploy the resources
-        default: us-east-1
-
-
-      instance_type:
-        type: string
-        description: Please provide instance type
-        required: true
-        default: t2.micro
-
-      instance_name:
-        type: string
-        options:
-        description: Please provide instance name
-        required: true
-        default: cron
-
+ 
 
 jobs:
   deploy:
@@ -45,37 +13,8 @@ jobs:
       - uses: actions/checkout@v7
         name: Checkout repository
 
-      - name: Create tfvars file
-        run: |
-          cat <<EOF > terraform.tfvars
-          instance_name = "${{ inputs.instance_name }}"
-          instance_type = "${{ inputs.instance_type }}"
-          region = "${{ inputs.region }}"
-          EOF
-
-      - name : Set up Terraform
-        uses: hashicorp/setup-terraform@v4  
-
-      
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6.3.0
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2  
-
-      - name: Terraform Init
-        run: terraform init  
-
-      - name: Terraform Apply or Destroy
-        run: |
-         if [[ ${{ inputs.action }} == "apply" ]]
-         then
-          terraform apply -var instance_name=${{ inputs.instance_name }} -var instance_type=${{ inputs.instance_type }} -var region=${{ inputs.region }} -auto-approve
-         else
-          terraform destroy -var instance_name=${{ inputs.instance_name }} -var instance_type=${{ inputs.instance_type }} -var region=${{ inputs.region }} -auto-approve
-         fi
+      - name: Run Command
+        run: echo "Hello World!" 
 
     
         
