@@ -23,11 +23,13 @@ on:
       instance_type:
         type: string
         description: Please provide instance type
+        required: true
 
       instance_name:
         type: string
         options:
-        description: Please provide instance name               
+        description: Please provide instance name
+        required: true
 
 
 jobs:
